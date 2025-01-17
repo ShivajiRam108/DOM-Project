@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5, #ff9a9e, #a1c4fd, #667eea);
+      background-size: 400% 400%;
+      animation: gradient-shift 15s ease-in-out infinite alternate;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .form-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 40px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      border: 1px solid rgba(33, 17, 17, 0.18);
+    }
+    .form-box h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .input-box {
+      margin: 15px 0;
+      position: relative;
+    }
+    .input-box input {
+      width: 100%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      color: black;
+      font-size: 1rem;
+      outline: none;
+      text-align: start;
+    }
+    .input-box i {
+      position: absolute;
+      left: 234px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px 20px;
+      margin-top: 20px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 25px;
+      color: black;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, #764ba2, #667eea);
+    }
+    form p {
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: black;
+    }
+    form button a{
+      color: black;
+    }
+    form a {
+      color: red;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s ease-in-out;
+    }
+    form a:hover {
+      color: #acb6e5;
+    }
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 0%;
+      }
+      25% {
+        background-position: 25% 25%;
+      }
+      50% {
+        background-position: 50% 50%;
+      }
+      75% {
+        background-position: 75% 75%;
+      }
+      100% {
+        background-position: 100% 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h1>Register</h1>
+      <form id="registerForm">
+        <div class="input-box">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" placeholder="Username" required>
+        </div>
+        <div class="input-box">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Email" required>
+        </div>
+        <div class="input-box">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Password" required>
+        </div>
+        <div class="input-box">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="confirmPassword" placeholder="Re-Enter Password" required>
+        </div>
+        <button type="submit" class="btn"> <a href="./main-page.html">  Register Now</a></button>
+        <p>Go to login page here <a href="./login.html">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Simple validation
+      if (!username || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match. Please try again.");
+        return;
+      }
+
+      alert("Register Successful! 🎉");
+
+      
+    });
+  </script>
+</body>
+</html>
+
