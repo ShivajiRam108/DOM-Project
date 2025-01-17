@@ -1,11 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main-page</title>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+       
         * {
             margin: 0;
             padding: 0;
@@ -172,11 +175,9 @@
             font-size: 1.1rem;
             margin-top: 15px;
         }
-        form button a{
-            color:black;
-        }
+
         form a {
-            color: red;
+            color: black;
             text-decoration: none;
             font-weight: bold;
             transition: color 0.2s ease-in-out;
@@ -185,12 +186,23 @@
         form a:hover {
             color: #acb6e5;
         }
+        .input-box {
+        position: relative;
+    }
+    
+    .input-box i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+    }
     </style>
 </head>
 
 <body>
     <header>
-        
         <div class="logo">My Logo</div>
         <div class="search-bar">
             <input type="text" placeholder="Search">
@@ -210,14 +222,15 @@
 
     <div class="form-box">
         <h1>Login</h1>
-        <form>
+        <form id="loginForm">
             <div class="input-box">
                 <input type="text" id="username" placeholder="Username" required>
             </div>
             <div class="input-box">
                 <input type="password" id="password" placeholder="Password" required>
+                <i class="fas fa-eye" id="togglePassword" onclick="togglePassword()"></i>
             </div>
-            <button type="submit" class="btn" ><a href="./main-page.html">Login </a></button>
+            <button type="submit" class="btn">Login</button>
             <p>Don't have an account? <a href="./register.html">Register</a></p>
         </form>
     </div>
@@ -225,62 +238,81 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
+        
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                alert('Login successful!');
+                window.location.href = './main-page.html';
+            } else {
+                alert('Please enter both username and password.');
+            }
+        });
+
+        // Example: Toggle menu function
         function toggleMenu() {
             const menuIcons = document.getElementById('menuBarIcons');
             menuIcons.style.display = menuIcons.style.display === 'block' ? 'none' : 'block';
         }
-        
-        document.getElementById("loginButton").addEventListener("click", function () {
-    // Replace 'user.html' with the actual path of the user page.
-    window.location.href = "index.html";
-  });
-async function getData(){
-    let loader = document.getElementById("loader")
-    let container = document.getElementsByClassName("container")[0]
 
-    loader.style.display = "block";
-    container.style.display = "none";
+        // Fetch Data from JSON (already implemented)
+        async function getData() {
+            const loader = document.getElementById("loader");
+            const container = document.getElementsByClassName("container")[0];
 
-    let response=await fetch("https://brick-tourmaline-case.glitch.me/products")
-    
-    try{
-        if(!response.ok){
-            throw new Error(response.statusText)
+            // Display loader
+            loader.style.display = "block";
+            container.style.display = "none";
 
+            try {
+                let response = await fetch("https://brick-tourmaline-case.glitch.me/products");
+
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                let products = await response.json();
+
+                // Clear the existing content before appending new content
+                container.innerHTML = '';
+
+                products.forEach(product => {
+                    const item = document.createElement("div");
+                    item.className = "item";
+                    item.innerHTML = `
+                        <img src='${product.image}' alt='Product Image'>
+                        <h3>${product.productName}</h3>
+                        <p>${product.description || ""}</p>
+                        <div class="footer"> 
+                            <a href="https://www.amazon.com/s?k=${encodeURIComponent(product.productName)}" class="buy">Buy Now</a>
+                            <pre class="price" data-bs-toggle="modal" data-bs-target="#couponModal">$${product.price}</pre>
+                        </div>
+                    `;
+                    container.appendChild(item);
+                });
+            } catch (error) {
+                console.error(error);
+            } finally {
+                // Hide loader and show container again
+                loader.style.display = "none";
+                container.style.display = "grid";
+            }
         }
-        let student = await response.json()
-        student.forEach(element => {
-            let container=document.getElementsByClassName("container")[0];
-            let item =document.createElement("div")
-            item.className="item"
-            item.innerHTML=
-                `
-                    <img src='${element.image}'>
-                    <h3>${element.productName}</h3>
-                    <p>${element.description  || ""}</p>
-                    <div class="footer"> 
-                           <a href="https://www.amazon.com/s?k=${encodeURIComponent(element.productName)}" 
-                       
-                       class="buy">Buy Now</a>
-                          <pre class="price" data-bs-toggle="modal" data-bs-target="#couponModal">$ ${element.price}</pre>
-                    </div>
 
-            `
-            container.appendChild(item)
-
-        });
-    }catch(error){
-        console.error(error)
-    }
-    finally{
-        loader.style.display = "none";
-        container.style.display = "grid";
-    }
-}
-document.addEventListener("DOMContentLoaded",getData)
+        document.addEventListener("DOMContentLoaded", getData);
     </script>
 </body>
 
 </html>
-
-
